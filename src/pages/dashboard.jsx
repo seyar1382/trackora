@@ -1,6 +1,52 @@
+import { useState } from "react";
 import "./dashboard.css";
 
 function Dashboard() {
+  function changeStatus(id, newStatus) {
+    setProjects(
+      projects.map((project) =>
+        project.id === id
+          ? {
+              ...project,
+              status: newStatus,
+            }
+          : project,
+      ),
+    );
+  }
+
+  function deleteProject(id) {
+    setProjects(projects.filter((project) => project.id !== id));
+  }
+
+  function addProject() {
+    if (!newProject.trim()) return;
+
+    setProjects([
+      ...projects,
+      {
+        // id: Date.now(),
+        title: newProject,
+        status: "Not Started",
+      },
+    ]);
+
+    setNewProject("");
+  }
+
+  const [projects, setProjects] = useState([
+    {
+      id: 1,
+      title: "Portfolio Website",
+      status: "In Progress",
+    },
+    {
+      id: 2,
+      title: "Database Assignment",
+      status: "Completed",
+    },
+  ]);
+  const [newProject, setNewProject] = useState("");
   return (
     <div className="dashboard">
       <aside className="sidebar">
@@ -41,13 +87,32 @@ function Dashboard() {
         </section>
 
         <section className="recent-projects">
+          <input
+            type="text"
+            placeholder="Project name"
+            value={newProject}
+            onChange={(e) => setNewProject(e.target.value)}
+          />
+          <button onClick={addProject}>Add Project</button>
+
           <h2>Recent Projects</h2>
 
-          <div className="project-card">Portfolio Website</div>
+          {projects.map((project) => (
+            <div key={project.id} className="project-card">
+              <span>{project.title}</span>
+              {/* <span>{project.status}</span> */}
+              <select
+                value={project.status}
+                onChange={(e) => changeStatus(project.id, e.target.value)}
+              >
+                <option>Not Started</option>
+                <option>In Progress</option>
+                <option>Completed</option>
+              </select>
 
-          <div className="project-card">Database Assignment</div>
-
-          <div className="project-card">Mobile App</div>
+              <button onClick={() => deleteProject(project.id)}>Delete</button>
+            </div>
+          ))}
         </section>
       </main>
     </div>
