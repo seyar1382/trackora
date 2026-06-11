@@ -1,40 +1,71 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Sidebar from "../components/Sidebar";
+import StatsCard from "../components/StatsCard";
 import "./dashboard.css";
 
 function Dashboard() {
-  const [projects, setProjects] = useState([
-    {
-      id: 1,
-      title: "Portfolio Website",
-      status: "In Progress",
-      tasks: [
-        {
-          id: 1,
-          text: "Design UI",
-          completed: true,
-        },
-        {
-          id: 2,
-          text: "Build Landing Page",
-          completed: false,
-        },
-      ],
-    },
-    {
-      id: 2,
-      title: "Database Assignment",
-      status: "Completed",
-      tasks: [
-        {
-          id: 1,
-          text: "Create Schema",
-          completed: true,
-        },
-      ],
-    },
-  ]);
+  const [projects, setProjects] = useState(() => {
+    const savedProjects = localStorage.getItem("projects");
+
+    return savedProjects
+      ? JSON.parse(savedProjects)
+      : [
+          {
+            id: 1,
+            title: "Portfolio Website",
+            status: "In Progress",
+            tasks: [
+              {
+                id: 1,
+                text: "Design UI",
+                completed: true,
+              },
+              {
+                id: 2,
+                text: "Build Landing Page",
+                completed: false,
+              },
+            ],
+          },
+          {
+            id: 2,
+            title: "Database Assignment",
+            status: "Completed",
+            tasks: [
+              {
+                id: 1,
+                text: "Create Schema",
+                completed: true,
+              },
+            ],
+          },
+        ];
+  });
 
   const [newProject, setNewProject] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("projects", JSON.stringify(projects));
+  }, [projects]);
+
+  const totalProjects = projects.length;
+
+  const totalTasks = projects.reduce(
+    (total, project) => total + project.tasks.length,
+    0,
+  );
+
+  const completedProjects = projects.filter(
+    (project) => project.status === "Completed",
+  ).length;
+
+  const overallProgress =
+    projects.length === 0
+      ? 0
+      : Math.round(
+          projects.reduce((total, project) => total + getProgress(project), 0) /
+            projects.length,
+        );
 
   function addProject() {
     if (!newProject.trim()) return;
@@ -127,15 +158,7 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      <aside className="sidebar">
-        <h2>Trackora</h2>
-
-        <nav>
-          <p>Dashboard</p>
-          <p>Projects</p>
-          <p>Profile</p>
-        </nav>
-      </aside>
+      <Sidebar />
 
       <main className="dashboard-content">
         <header>
@@ -143,25 +166,13 @@ function Dashboard() {
         </header>
 
         <section className="stats">
-          <div className="stat-card">
-            <h3>12</h3>
-            <p>Total Projects</p>
-          </div>
+          <StatsCard value={totalProjects} label="Total Projects" />
 
-          <div className="stat-card">
-            <h3>43</h3>
-            <p>Total Tasks</p>
-          </div>
+          <StatsCard value={totalTasks} label="Total Tasks" />
 
-          <div className="stat-card">
-            <h3>8</h3>
-            <p>Completed Projects</p>
-          </div>
+          <StatsCard value={completedProjects} label="Completed Projects" />
 
-          <div className="stat-card">
-            <h3>72%</h3>
-            <p>Progress</p>
-          </div>
+          <StatsCard value={`${overallProgress}%`} label="Progress" />
         </section>
 
         <section className="recent-projects">
