@@ -2,6 +2,60 @@ import { useState } from "react";
 import "./dashboard.css";
 
 function Dashboard() {
+  const [projects, setProjects] = useState([
+    {
+      id: 1,
+      title: "Portfolio Website",
+      status: "In Progress",
+      tasks: [
+        {
+          id: 1,
+          text: "Design UI",
+          completed: true,
+        },
+        {
+          id: 2,
+          text: "Build Landing Page",
+          completed: false,
+        },
+      ],
+    },
+    {
+      id: 2,
+      title: "Database Assignment",
+      status: "Completed",
+      tasks: [
+        {
+          id: 1,
+          text: "Create Schema",
+          completed: true,
+        },
+      ],
+    },
+  ]);
+
+  const [newProject, setNewProject] = useState("");
+
+  function addProject() {
+    if (!newProject.trim()) return;
+
+    setProjects([
+      ...projects,
+      {
+        id: Date.now(),
+        title: newProject,
+        status: "Not Started",
+        tasks: [],
+      },
+    ]);
+
+    setNewProject("");
+  }
+
+  function deleteProject(id) {
+    setProjects(projects.filter((project) => project.id !== id));
+  }
+
   function changeStatus(id, newStatus) {
     setProjects(
       projects.map((project) =>
@@ -15,38 +69,62 @@ function Dashboard() {
     );
   }
 
-  function deleteProject(id) {
-    setProjects(projects.filter((project) => project.id !== id));
+  function addTask(projectId) {
+    const taskName = prompt("Task name");
+
+    if (!taskName) return;
+
+    setProjects(
+      projects.map((project) =>
+        project.id === projectId
+          ? {
+              ...project,
+              tasks: [
+                ...project.tasks,
+                {
+                  id: Date.now(),
+                  text: taskName,
+                  completed: false,
+                },
+              ],
+            }
+          : project,
+      ),
+    );
   }
 
-  function addProject() {
-    if (!newProject.trim()) return;
-
-    setProjects([
-      ...projects,
-      {
-        // id: Date.now(),
-        title: newProject,
-        status: "Not Started",
-      },
-    ]);
-
-    setNewProject("");
+  function toggleTask(projectId, taskId) {
+    setProjects(
+      projects.map((project) =>
+        project.id === projectId
+          ? {
+              ...project,
+              tasks: project.tasks.map((task) =>
+                task.id === taskId
+                  ? {
+                      ...task,
+                      completed: !task.completed,
+                    }
+                  : task,
+              ),
+            }
+          : project,
+      ),
+    );
   }
 
-  const [projects, setProjects] = useState([
-    {
-      id: 1,
-      title: "Portfolio Website",
-      status: "In Progress",
-    },
-    {
-      id: 2,
-      title: "Database Assignment",
-      status: "Completed",
-    },
-  ]);
-  const [newProject, setNewProject] = useState("");
+  function getProgress(project) {
+    if (project.tasks.length === 0) {
+      return 0;
+    }
+
+    const completedTasks = project.tasks.filter(
+      (task) => task.completed,
+    ).length;
+
+    return Math.round((completedTasks / project.tasks.length) * 100);
+  }
+
   return (
     <div className="dashboard">
       <aside className="sidebar">
@@ -93,24 +171,48 @@ function Dashboard() {
             value={newProject}
             onChange={(e) => setNewProject(e.target.value)}
           />
+
           <button onClick={addProject}>Add Project</button>
 
           <h2>Recent Projects</h2>
 
           {projects.map((project) => (
             <div key={project.id} className="project-card">
-              <span>{project.title}</span>
-              {/* <span>{project.status}</span> */}
-              <select
-                value={project.status}
-                onChange={(e) => changeStatus(project.id, e.target.value)}
-              >
-                <option>Not Started</option>
-                <option>In Progress</option>
-                <option>Completed</option>
-              </select>
+              <div>
+                <h3>{project.title}</h3>
 
-              <button onClick={() => deleteProject(project.id)}>Delete</button>
+                <p>Progress: {getProgress(project)}%</p>
+
+                <p>{project.tasks.length} Tasks</p>
+
+                <div>
+                  {project.tasks.map((task) => (
+                    <p
+                      key={task.id}
+                      onClick={() => toggleTask(project.id, task.id)}
+                    >
+                      {task.completed ? "✅" : "⬜"} {task.text}
+                    </p>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <select
+                  value={project.status}
+                  onChange={(e) => changeStatus(project.id, e.target.value)}
+                >
+                  <option>Not Started</option>
+                  <option>In Progress</option>
+                  <option>Completed</option>
+                </select>
+
+                <button onClick={() => addTask(project.id)}>Add Task</button>
+
+                <button onClick={() => deleteProject(project.id)}>
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </section>
