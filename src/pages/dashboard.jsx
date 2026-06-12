@@ -1,53 +1,49 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import StatsCard from "../components/StatsCard";
 import ProjectCard from "../components/ProjectCard";
 import "./dashboard.css";
 
-function Dashboard() {
-  const [projects, setProjects] = useState(() => {
-    const savedProjects = localStorage.getItem("projects");
+function Dashboard({ projects, setProjects }) {
+  // const [projects, setProjects] = useState(() => {
+  //   const savedProjects = localStorage.getItem("projects");
 
-    return savedProjects
-      ? JSON.parse(savedProjects)
-      : [
-          {
-            id: 1,
-            title: "Portfolio Website",
-            status: "In Progress",
-            tasks: [
-              {
-                id: 1,
-                text: "Design UI",
-                completed: true,
-              },
-              {
-                id: 2,
-                text: "Build Landing Page",
-                completed: false,
-              },
-            ],
-          },
-          {
-            id: 2,
-            title: "Database Assignment",
-            status: "Completed",
-            tasks: [
-              {
-                id: 1,
-                text: "Create Schema",
-                completed: true,
-              },
-            ],
-          },
-        ];
-  });
+  //   return savedProjects
+  //     ? JSON.parse(savedProjects)
+  //     : [
+  //         {
+  //           id: 1,
+  //           title: "Portfolio Website",
+  //           status: "In Progress",
+  //           tasks: [
+  //             {
+  //               id: 1,
+  //               text: "Design UI",
+  //               completed: true,
+  //             },
+  //             {
+  //               id: 2,
+  //               text: "Build Landing Page",
+  //               completed: false,
+  //             },
+  //           ],
+  //         },
+  //         {
+  //           id: 2,
+  //           title: "Database Assignment",
+  //           status: "Completed",
+  //           tasks: [
+  //             {
+  //               id: 1,
+  //               text: "Create Schema",
+  //               completed: true,
+  //             },
+  //           ],
+  //         },
+  //       ];
+  // });
 
   const [newProject, setNewProject] = useState("");
-
-  useEffect(() => {
-    localStorage.setItem("projects", JSON.stringify(projects));
-  }, [projects]);
 
   const totalProjects = projects.length;
 

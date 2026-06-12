@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function ProjectCard({
   project,
@@ -13,7 +14,9 @@ function ProjectCard({
   return (
     <div className="project-card">
       <div>
-        <h3>{project.title}</h3>
+        <h3>
+          <Link to={`/project/${project.id}`}>{project.title}</Link>
+        </h3>
 
         <p>Progress: {getProgress(project)}%</p>
 
