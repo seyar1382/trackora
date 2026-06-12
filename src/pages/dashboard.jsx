@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import StatsCard from "../components/StatsCard";
+import ProjectCard from "../components/ProjectCard";
 import "./dashboard.css";
 
 function Dashboard() {
@@ -100,10 +101,8 @@ function Dashboard() {
     );
   }
 
-  function addTask(projectId) {
-    const taskName = prompt("Task name");
-
-    if (!taskName) return;
+  function addTask(projectId, taskName) {
+    if (!taskName.trim()) return;
 
     setProjects(
       projects.map((project) =>
@@ -188,43 +187,15 @@ function Dashboard() {
           <h2>Recent Projects</h2>
 
           {projects.map((project) => (
-            <div key={project.id} className="project-card">
-              <div>
-                <h3>{project.title}</h3>
-
-                <p>Progress: {getProgress(project)}%</p>
-
-                <p>{project.tasks.length} Tasks</p>
-
-                <div>
-                  {project.tasks.map((task) => (
-                    <p
-                      key={task.id}
-                      onClick={() => toggleTask(project.id, task.id)}
-                    >
-                      {task.completed ? "✅" : "⬜"} {task.text}
-                    </p>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <select
-                  value={project.status}
-                  onChange={(e) => changeStatus(project.id, e.target.value)}
-                >
-                  <option>Not Started</option>
-                  <option>In Progress</option>
-                  <option>Completed</option>
-                </select>
-
-                <button onClick={() => addTask(project.id)}>Add Task</button>
-
-                <button onClick={() => deleteProject(project.id)}>
-                  Delete
-                </button>
-              </div>
-            </div>
+            <ProjectCard
+              key={project.id}
+              project={project}
+              deleteProject={deleteProject}
+              addTask={addTask}
+              changeStatus={changeStatus}
+              toggleTask={toggleTask}
+              getProgress={getProgress}
+            />
           ))}
         </section>
       </main>
