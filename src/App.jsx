@@ -32,7 +32,10 @@ function App() {
       <Route path="/projects" element={<Projects />} />
       {/* <Route path="/project/:id" element={<ProjectDetails />} /> */}
       <Route path="/profile" element={<Profile />} />
-      <Route path="/project/:id" element={<Project projects={projects} />} />
+      <Route
+        path="/project/:id"
+        element={<Project projects={projects} setProjects={setProjects} />}
+      />
     </Routes>
   );
 }

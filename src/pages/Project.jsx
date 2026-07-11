@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import "./project.css";
 
-function Project({ projects }) {
+function Project({ projects, setProjects }) {
   const { id } = useParams();
 
   const project = projects.find((p) => p.id === Number(id));
@@ -22,25 +22,64 @@ function Project({ projects }) {
     return Math.round((completedTasks / project.tasks.length) * 100);
   }
 
+  function toggleTask(taskId) {
+    setProjects(
+      projects.map((p) =>
+        p.id === project.id
+          ? {
+              ...p,
+              tasks: p.tasks.map((task) =>
+                task.id === taskId
+                  ? {
+                      ...task,
+                      completed: !task.completed,
+                    }
+                  : task,
+              ),
+            }
+          : p,
+      ),
+    );
+  }
+
   return (
     <div className="project-page">
       <Link to="/dashboard">← Back to Dashboard</Link>
 
       <h1>{project.title}</h1>
 
-      <p>Status: {project.status}</p>
+      <div className="project-info">
+        <div className="info-card">
+          <h3>Status</h3>
+          <p>{project.status}</p>
+        </div>
 
-      <p>Progress: {getProgress(project)}%</p>
+        <div className="info-card">
+          <h3>Progress</h3>
+          <p>{getProgress(project)}%</p>
+        </div>
 
-      <p>Total Tasks: {project.tasks.length}</p>
+        <div className="info-card">
+          <h3>Tasks</h3>
+          <p>{project.tasks.length}</p>
+        </div>
+      </div>
 
       <h2>Tasks</h2>
 
-      {project.tasks.map((task) => (
-        <div key={task.id}>
-          {task.completed ? "✅" : "⬜"} {task.text}
-        </div>
-      ))}
+      <div className="task-list">
+        {project.tasks.map((task) => (
+          <div
+            key={task.id}
+            className="task-item"
+            onClick={() => toggleTask(task.id)}
+          >
+            <span>{task.completed ? "✅" : "⬜"}</span>
+
+            <span>{task.text}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

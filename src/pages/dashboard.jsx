@@ -2,6 +2,8 @@ import { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import StatsCard from "../components/StatsCard";
 import ProjectCard from "../components/ProjectCard";
+import { FiFolder, FiCheckCircle, FiList, FiTrendingUp } from "react-icons/fi";
+import DashboardHeader from "../components/DashboardHeader";
 import "./dashboard.css";
 
 function Dashboard({ projects, setProjects }) {
@@ -156,18 +158,28 @@ function Dashboard({ projects, setProjects }) {
       <Sidebar />
 
       <main className="dashboard-content">
-        <header>
-          <h1>Dashboard</h1>
-        </header>
+        <DashboardHeader />
 
         <section className="stats">
-          <StatsCard value={totalProjects} label="Total Projects" />
+          <StatsCard
+            icon={<FiFolder />}
+            value={totalProjects}
+            label="Total Projects"
+          />
 
-          <StatsCard value={totalTasks} label="Total Tasks" />
+          <StatsCard
+            icon={<FiCheckCircle />}
+            value={completedProjects}
+            label="Completed Projects"
+          />
 
-          <StatsCard value={completedProjects} label="Completed Projects" />
+          <StatsCard icon={<FiList />} value={totalTasks} label="Total Tasks" />
 
-          <StatsCard value={`${overallProgress}%`} label="Progress" />
+          <StatsCard
+            icon={<FiTrendingUp />}
+            value={`${overallProgress}%`}
+            label="Progress"
+          />
         </section>
 
         <section className="recent-projects">
