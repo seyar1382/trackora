@@ -15,8 +15,18 @@ function ProjectCard({
     <div className="project-card">
       <div className="project-top">
         <div>
-          <h3>{project.title}</h3>
-          <p className="project-status">{project.status}</p>
+          <h3>
+            <Link to={`/project/${project.id}`} className="project-title-link">
+              {project.title}
+            </Link>
+          </h3>
+          <span
+            className={`status-badge ${project.status
+              .toLowerCase()
+              .replace(" ", "-")}`}
+          >
+            {project.status}
+          </span>
         </div>
 
         <button

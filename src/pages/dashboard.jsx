@@ -4,47 +4,10 @@ import StatsCard from "../components/StatsCard";
 import ProjectCard from "../components/ProjectCard";
 import { FiFolder, FiCheckCircle, FiList, FiTrendingUp } from "react-icons/fi";
 import DashboardHeader from "../components/DashboardHeader";
+import ProgressChart from "../components/ProgressChart";
 import "./dashboard.css";
 
 function Dashboard({ projects, setProjects }) {
-  // const [projects, setProjects] = useState(() => {
-  //   const savedProjects = localStorage.getItem("projects");
-
-  //   return savedProjects
-  //     ? JSON.parse(savedProjects)
-  //     : [
-  //         {
-  //           id: 1,
-  //           title: "Portfolio Website",
-  //           status: "In Progress",
-  //           tasks: [
-  //             {
-  //               id: 1,
-  //               text: "Design UI",
-  //               completed: true,
-  //             },
-  //             {
-  //               id: 2,
-  //               text: "Build Landing Page",
-  //               completed: false,
-  //             },
-  //           ],
-  //         },
-  //         {
-  //           id: 2,
-  //           title: "Database Assignment",
-  //           status: "Completed",
-  //           tasks: [
-  //             {
-  //               id: 1,
-  //               text: "Create Schema",
-  //               completed: true,
-  //             },
-  //           ],
-  //         },
-  //       ];
-  // });
-
   const [newProject, setNewProject] = useState("");
 
   const totalProjects = projects.length;
@@ -182,6 +145,8 @@ function Dashboard({ projects, setProjects }) {
           />
         </section>
 
+        <ProgressChart projects={projects} getProgress={getProgress} />
+
         <section className="recent-projects">
           <input
             type="text"
@@ -194,17 +159,24 @@ function Dashboard({ projects, setProjects }) {
 
           <h2>Recent Projects</h2>
 
-          {projects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              deleteProject={deleteProject}
-              addTask={addTask}
-              changeStatus={changeStatus}
-              toggleTask={toggleTask}
-              getProgress={getProgress}
-            />
-          ))}
+          {projects.length === 0 ? (
+            <div className="empty-state">
+              <h2>No projects yet</h2>
+              <p>Create your first project to get started.</p>
+            </div>
+          ) : (
+            projects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                deleteProject={deleteProject}
+                addTask={addTask}
+                changeStatus={changeStatus}
+                toggleTask={toggleTask}
+                getProgress={getProgress}
+              />
+            ))
+          )}
         </section>
       </main>
     </div>
