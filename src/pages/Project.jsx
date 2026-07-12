@@ -98,27 +98,32 @@ function Project({ projects, setProjects }) {
 
   return (
     <div className="project-page">
-      <Link to="/dashboard">← Back to Dashboard</Link>
+      <Link
+        to="/dashboard"
+        style={{
+          color: "var(--accent-primary)",
+          fontWeight: 700,
+          textDecoration: "none",
+        }}
+      >
+        ← Back to Dashboard
+      </Link>
 
       <h1>{project.title}</h1>
 
-      <div className="project-section">
-        <label>Status</label>
-
-        <select
-          value={project.status}
-          onChange={(e) => changeStatus(e.target.value)}
-        >
-          <option>Not Started</option>
-          <option>In Progress</option>
-          <option>Completed</option>
-        </select>
-      </div>
+      <hr />
 
       <div className="project-info">
         <div className="info-card">
           <h3>Status</h3>
-          <p>{project.status}</p>
+          <select
+            value={project.status}
+            onChange={(e) => changeStatus(e.target.value)}
+          >
+            <option>Not Started</option>
+            <option>In Progress</option>
+            <option>Completed</option>
+          </select>
         </div>
 
         <div className="info-card">
