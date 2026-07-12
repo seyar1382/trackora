@@ -218,6 +218,7 @@ button:hover {
   border-radius: var(--border-radius);
   padding: 1rem;
   margin-bottom: 1rem;
+  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -227,6 +228,15 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-right: 1rem;
+  width: 100%;
+}
+
+.project-title-link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .project-status {
@@ -238,6 +248,7 @@ button:hover {
   display: flex;
   justify-content: space-between;
   margin: 1rem 0 0.5rem;
+  width: 100%;
 }
 
 .project-card progress {
@@ -273,4 +284,21 @@ button:hover {
 .delete-btn {
   background: var(--danger);
   color: white;
+}
+
+.task-count {
+  margin: 1rem 0;
+  color: var(--text-secondary);
+  margin-left: 1rem;
+  width: 100%;
+}
+
+.open-project-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--accent-primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
 }

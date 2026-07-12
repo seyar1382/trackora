@@ -1,16 +1,7 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function ProjectCard({
-  project,
-  deleteProject,
-  addTask,
-  changeStatus,
-  toggleTask,
-  getProgress,
-}) {
-  const [newTask, setNewTask] = useState("");
-
+function ProjectCard({ project, getProgress }) {
   return (
     <div className="project-card">
       <div className="project-top">
@@ -20,6 +11,7 @@ function ProjectCard({
               {project.title}
             </Link>
           </h3>
+
           <span
             className={`status-badge ${project.status
               .toLowerCase()
@@ -28,64 +20,23 @@ function ProjectCard({
             {project.status}
           </span>
         </div>
-
-        <button
-          className="delete-btn"
-          onClick={() => deleteProject(project.id)}
-        >
-          Delete
-        </button>
       </div>
 
       <div className="project-progress">
-        <span>Progress</span>
-        <span>{getProgress(project)}%</span>
+        <span>Progress: {getProgress(project)}%</span>
       </div>
 
       <progress value={getProgress(project)} max="100" />
 
-      <h4>Tasks ({project.tasks.length})</h4>
+      <p className="task-count">
+        {project.tasks.filter((t) => t.completed).length}
+        {" / "}
+        {project.tasks.length} Tasks Completed
+      </p>
 
-      <div className="task-list">
-        {project.tasks.map((task) => (
-          <div
-            key={task.id}
-            className="task-item"
-            onClick={() => toggleTask(project.id, task.id)}
-          >
-            <span>{task.completed ? "✅" : "⬜"}</span>
-
-            <span>{task.text}</span>
-          </div>
-        ))}
-      </div>
-
-      <div className="project-actions">
-        <select
-          value={project.status}
-          onChange={(e) => changeStatus(project.id, e.target.value)}
-        >
-          <option>Not Started</option>
-          <option>In Progress</option>
-          <option>Completed</option>
-        </select>
-
-        <input
-          type="text"
-          placeholder="Task name"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-        />
-
-        <button
-          onClick={() => {
-            addTask(project.id, newTask);
-            setNewTask("");
-          }}
-        >
-          Add Task
-        </button>
-      </div>
+      <Link className="open-project-btn" to={`/project/${project.id}`}>
+        Open Project →
+      </Link>
     </div>
   );
 }

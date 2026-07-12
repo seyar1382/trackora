@@ -1,7 +1,12 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 import "./project.css";
 
 function Project({ projects, setProjects }) {
+  const [newTask, setNewTask] = useState("");
+
+  const navigate = useNavigate();
+
   const { id } = useParams();
 
   const project = projects.find((p) => p.id === Number(id));
@@ -42,11 +47,73 @@ function Project({ projects, setProjects }) {
     );
   }
 
+  function changeStatus(status) {
+    setProjects(
+      projects.map((p) =>
+        p.id === project.id
+          ? {
+              ...p,
+              status,
+            }
+          : p,
+      ),
+    );
+  }
+
+  function addTask() {
+    if (!newTask.trim()) return;
+
+    setProjects(
+      projects.map((p) =>
+        p.id === project.id
+          ? {
+              ...p,
+              tasks: [
+                ...p.tasks,
+                {
+                  id: Date.now(),
+                  text: newTask,
+                  completed: false,
+                },
+              ],
+            }
+          : p,
+      ),
+    );
+
+    setNewTask("");
+  }
+
+  function deleteProject() {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this project?",
+    );
+
+    if (!confirmed) return;
+
+    setProjects(projects.filter((p) => p.id !== project.id));
+
+    navigate("/dashboard");
+  }
+
   return (
     <div className="project-page">
       <Link to="/dashboard">← Back to Dashboard</Link>
 
       <h1>{project.title}</h1>
+
+      <div className="project-section">
+        <label>Status</label>
+
+        <select
+          value={project.status}
+          onChange={(e) => changeStatus(e.target.value)}
+        >
+          <option>Not Started</option>
+          <option>In Progress</option>
+          <option>Completed</option>
+        </select>
+      </div>
 
       <div className="project-info">
         <div className="info-card">
@@ -67,6 +134,17 @@ function Project({ projects, setProjects }) {
 
       <h2>Tasks</h2>
 
+      <div className="add-task">
+        <input
+          type="text"
+          placeholder="Task name"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+        />
+
+        <button onClick={addTask}>Add Task</button>
+      </div>
+
       <div className="task-list">
         {project.tasks.map((task) => (
           <div
@@ -79,6 +157,16 @@ function Project({ projects, setProjects }) {
             <span>{task.text}</span>
           </div>
         ))}
+      </div>
+
+      <div className="danger-zone">
+        <h2>Danger Zone</h2>
+
+        <p>Permanently delete this project.</p>
+
+        <button className="delete-btn" onClick={deleteProject}>
+          Delete Project
+        </button>
       </div>
     </div>
   );

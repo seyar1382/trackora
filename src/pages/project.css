@@ -58,3 +58,54 @@
 .task-item:hover {
   transform: translateY(-2px);
 }
+
+.add-task {
+  display: flex;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.add-task input {
+  flex: 1;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1rem;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 1rem;
+  outline: none;
+}
+
+.add-task button {
+  padding: 0.75rem 1.5rem;
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+/* danger zone */
+
+.danger-zone {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.danger-zone p {
+  margin: 1rem 0;
+  color: var(--text-secondary);
+}
+
+.delete-btn {
+  background: #dc2626;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+}
+
+.delete-btn:hover {
+  background: #b91c1c;
+}

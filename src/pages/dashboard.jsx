@@ -45,65 +45,6 @@ function Dashboard({ projects, setProjects }) {
     setNewProject("");
   }
 
-  function deleteProject(id) {
-    setProjects(projects.filter((project) => project.id !== id));
-  }
-
-  function changeStatus(id, newStatus) {
-    setProjects(
-      projects.map((project) =>
-        project.id === id
-          ? {
-              ...project,
-              status: newStatus,
-            }
-          : project,
-      ),
-    );
-  }
-
-  function addTask(projectId, taskName) {
-    if (!taskName.trim()) return;
-
-    setProjects(
-      projects.map((project) =>
-        project.id === projectId
-          ? {
-              ...project,
-              tasks: [
-                ...project.tasks,
-                {
-                  id: Date.now(),
-                  text: taskName,
-                  completed: false,
-                },
-              ],
-            }
-          : project,
-      ),
-    );
-  }
-
-  function toggleTask(projectId, taskId) {
-    setProjects(
-      projects.map((project) =>
-        project.id === projectId
-          ? {
-              ...project,
-              tasks: project.tasks.map((task) =>
-                task.id === taskId
-                  ? {
-                      ...task,
-                      completed: !task.completed,
-                    }
-                  : task,
-              ),
-            }
-          : project,
-      ),
-    );
-  }
-
   function getProgress(project) {
     if (project.tasks.length === 0) {
       return 0;
@@ -169,10 +110,6 @@ function Dashboard({ projects, setProjects }) {
               <ProjectCard
                 key={project.id}
                 project={project}
-                deleteProject={deleteProject}
-                addTask={addTask}
-                changeStatus={changeStatus}
-                toggleTask={toggleTask}
                 getProgress={getProgress}
               />
             ))
