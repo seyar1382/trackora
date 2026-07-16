@@ -96,6 +96,32 @@ function Project({ projects, setProjects }) {
     navigate("/dashboard");
   }
 
+  function updateDueDate(dueDate) {
+    setProjects(
+      projects.map((p) =>
+        p.id === project.id
+          ? {
+              ...p,
+              dueDate,
+            }
+          : p,
+      ),
+    );
+  }
+
+  function updateDescription(description) {
+    setProjects(
+      projects.map((p) =>
+        p.id === project.id
+          ? {
+              ...p,
+              description,
+            }
+          : p,
+      ),
+    );
+  }
+
   return (
     <div className="project-page">
       <Link
@@ -110,6 +136,13 @@ function Project({ projects, setProjects }) {
       </Link>
 
       <h1>{project.title}</h1>
+      <textarea
+        value={project.description}
+        placeholder="Project description..."
+        cols="102"
+        rows="5"
+        onChange={(e) => updateDescription(e.target.value)}
+      />
 
       <hr />
 
@@ -135,6 +168,18 @@ function Project({ projects, setProjects }) {
           <h3>Tasks</h3>
           <p>{project.tasks.length}</p>
         </div>
+      </div>
+
+      <p>Created: {project.createdAt}</p>
+
+      <div className="project-section">
+        <label>Due Date</label>
+
+        <input
+          type="date"
+          value={project.dueDate}
+          onChange={(e) => updateDueDate(e.target.value)}
+        />
       </div>
 
       <h2>Tasks</h2>
@@ -163,6 +208,10 @@ function Project({ projects, setProjects }) {
           </div>
         ))}
       </div>
+
+      <h2>Notes & Links</h2>
+
+      <p>Coming Soon...</p>
 
       <div className="danger-zone">
         <h2>Danger Zone</h2>

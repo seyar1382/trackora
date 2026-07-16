@@ -37,8 +37,12 @@ function Dashboard({ projects, setProjects }) {
       {
         id: Date.now(),
         title: newProject,
+        description: "",
+        createdAt: new Date().toLocaleDateString(),
+        dueDate: "",
         status: "Not Started",
         tasks: [],
+        notes: [],
       },
     ]);
 
