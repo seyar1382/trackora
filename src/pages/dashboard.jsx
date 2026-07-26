@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import StatsCard from "../components/StatsCard";
 import ProjectCard from "../components/ProjectCard";
@@ -6,9 +6,20 @@ import { FiFolder, FiCheckCircle, FiList, FiTrendingUp } from "react-icons/fi";
 import DashboardHeader from "../components/DashboardHeader";
 import ProgressChart from "../components/ProgressChart";
 import "./dashboard.css";
+import { getProjects } from "../api/projectApi";
 
 function Dashboard({ projects, setProjects }) {
   const [newProject, setNewProject] = useState("");
+
+  useEffect(() => {
+    async function fetchProjects() {
+      const data = await getProjects();
+
+      console.log(data);
+    }
+
+    fetchProjects();
+  }, []);
 
   const totalProjects = projects.length;
 
