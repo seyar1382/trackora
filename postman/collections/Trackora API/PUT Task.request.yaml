@@ -1,0 +1,13 @@
+$kind: http-request
+name: PUT Task
+description: ""
+url: http://localhost:3001/tasks/1
+method: PUT
+body:
+  type: json
+  content: |-
+    {
+      "text": "Design Login & Register Pages",
+      "completed": true
+    }
+order: 4496556164767467

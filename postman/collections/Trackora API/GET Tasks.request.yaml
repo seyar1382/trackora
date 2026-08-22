@@ -1,9 +1,6 @@
 $kind: http-request
-name: Create Project
+name: GET Tasks
 description: ""
 url: http://localhost:3001/tasks
 method: GET
-body:
-  type: json
-  content: ""
-order: 1787427267881
+order: 4432429886582968

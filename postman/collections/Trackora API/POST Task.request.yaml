@@ -1,0 +1,14 @@
+$kind: http-request
+name: POST Task
+description: ""
+url: http://localhost:3001/tasks
+method: GET
+body:
+  type: json
+  content: |-
+    {
+      "text": "Design Login Page",
+      "completed": false,
+      "project_id": 1
+    }
+order: 4488551048600719
