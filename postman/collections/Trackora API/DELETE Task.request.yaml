@@ -1,6 +1,0 @@
-$kind: http-request
-name: DELETE Task
-description: ""
-url: http://localhost:3001/tasks/2
-method: DELETE
-order: 4495575014165158

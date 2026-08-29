@@ -1,9 +1,0 @@
-$kind: http-request
-name: POST Project
-description: ""
-url: http://localhost:3001/projects
-method: POST
-body:
-  type: json
-  content: ""
-order: 4070804374972693
