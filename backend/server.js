@@ -1,13 +1,16 @@
 import express from "express";
 import cors from "cors";
 import pool from "./db/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import authMiddleware from "./middleware/authMiddleware.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/auth", authRoutes);
 
-app.get("/projects", async (req, res) => {
+app.get("/projects", authMiddleware, async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM projects ORDER BY id ASC");
 

@@ -1,19 +1,24 @@
-export async function getProjects() {
-  const response = await fetch("http://localhost:3001/projects");
+const API_URL = "http://localhost:3001";
 
-  const data = await response.json();
+export async function getProjects(token) {
+  const response = await fetch(`${API_URL}/projects`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-  return data;
+  return response.json();
 }
 
-export async function createProject(project) {
-  const response = await fetch("http://localhost:3001/projects", {
+export async function createProject(project, token) {
+  const response = await fetch(`${API_URL}/projects`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(project),
   });
 
-  return await response.json();
+  return response.json();
 }

@@ -2,7 +2,7 @@ $kind: http-request
 name: POST Task
 description: ""
 url: http://localhost:3001/tasks
-method: GET
+method: POST
 body:
   type: json
   content: |-
